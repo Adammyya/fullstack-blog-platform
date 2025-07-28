@@ -1,0 +1,23 @@
+<%- include('partials/header') %>
+<%- include('partials/messages') %> 
+
+<main>
+    
+    <h1>All Posts</h1>
+    <h2>Edit Post</h2>
+    <!-- The form POSTs to the specific post's update URL -->
+    <form action="/posts/<%= post._id %>/edit" method="POST">
+        <div>
+            <label for="title">Title</label>
+            <!-- The 'value' attribute pre-fills the input with the current title -->
+            <input type="text" id="title" name="title" value="<%= post.title %>" required>
+        </div>
+        <div>
+            <label for="content">Content</label>
+            <!-- The post's content is placed between the textarea tags to pre-fill it -->
+            <textarea id="content" name="content" rows="10" required><%= post.content %></textarea>
+        </div>
+        <button type="submit">Update Post</button>
+    </form>
+</main>
+<%- include('partials/footer') %>

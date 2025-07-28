@@ -1,0 +1,25 @@
+<%- include('partials/header') %>
+
+<main>
+    <%- include('partials/messages') %>
+    
+    <h1>All Posts</h1>
+    
+    <% if (posts.length > 0) { %>
+        <% posts.forEach(post => { %>
+            <!-- This is the loop that displays each post -->
+            <article class="post-summary">
+                <h2><a href="/posts/<%= post._id %>"><%= post.title %></a></h2>
+                <p class="post-meta">By: <% if (post.author) { %><a href="/author/<%= post.author._id %>" class="author-link"><%= post.author.name %></a><% } else { %>An unknown author<% } %> on <%= post.createdAt.toDateString() %></p>
+                <p><%= post.content.substring(0, 150) %>...</p>
+                <a href="/posts/<%= post._id %>" class="read-more">Read More</a>
+            </article>
+        <% }) %>
+    <% } else { %>
+        <p>No posts to display yet!</p>
+    <% } %>
+
+    <%- include('partials/pagination') %> <!--at footer-->
+</main>
+
+<%- include('partials/footer') %>

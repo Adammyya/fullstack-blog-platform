@@ -1,0 +1,69 @@
+<%- include('partials/header') %>
+
+<main>
+    <%- include('partials/messages') %>
+
+    <article class="full-post">
+        
+        <!-- Edit and Delete buttons for the author -->
+        <% if (user && post.author && user.id.toString() === post.author._id.toString()) { %>
+            <div class="post-controls">
+                <a href="/posts/<%= post._id %>/edit" class="edit-button">Edit Post</a>
+                <form action="/posts/<%= post._id %>/delete" method="POST" onsubmit="return confirm('Are you sure you want to delete this post?');">
+                    <button type="submit" class="delete-button">Delete Post</button>
+                </form>
+            </div>
+        <% } %>
+
+        <h1><%= post.title %></h1>
+        
+        <!-- Post meta with safety check for the author's name -->
+        <p class="post-meta"> By: <% if (post.author) { %>
+        <a href="/author/<%= post.author._id %>" class="author-link"><%= post.author.name %></a>
+    <% } else { %>
+        An unknown author
+    <% } %>
+    on <%= post.createdAt.toDateString() %> </p>
+        
+        <div>
+            <!-- The hyphen here renders the post's content as HTML -->
+            <%- post.content %>
+        </div>
+    </article>
+
+    <hr>
+
+    <!-- Comments Section -->
+    <section class="comments-section">
+        <h3>Comments</h3>
+        
+        <!-- Comment Form for logged-in users -->
+        <% if (user) { %>
+            <form action="/posts/<%= post._id %>/comments" method="POST" class="comment-form">
+                <div>
+                    <textarea name="commentText" rows="4" placeholder="Leave a comment..." required></textarea>
+                </div>
+                <button type="submit">Submit Comment</button>
+            </form>
+        <% } else { %>
+            <p><a href="/login">Log in</a> to leave a comment.</p>
+        <% } %>
+
+        <!-- Display existing comments -->
+        <div class="comments-list">
+            <% if (post.comments && post.comments.length > 0) { %>
+                <% post.comments.slice().reverse().forEach(comment => { %> <!-- .slice().reverse() to show newest first -->
+                    <div class="comment">
+                        <p><strong><% if (comment.author) { %><%= comment.author.name %><% } else { %>A user<% } %>:</strong> <%= comment.text %></p>
+                        <small><%= comment.createdAt.toDateString() %></small>
+                    </div>
+                <% }) %>
+            <% } else { %>
+                <p>No comments yet. Be the first to comment!</p>
+            <% } %>
+        </div>
+    </section>
+
+</main>
+
+<%- include('partials/footer') %>

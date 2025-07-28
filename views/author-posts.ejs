@@ -1,0 +1,23 @@
+<%- include('partials/header') %>
+
+<main>
+    <%- include('partials/messages') %>
+
+    <h1>Posts by <%= authorName %></h1>
+    <hr>
+
+    <% if (posts.length > 0) { %>
+        <% posts.forEach(post => { %>
+            <article class="post-summary">
+                <h2><a href="/posts/<%= post._id %>"><%= post.title %></a></h2>
+                <p class="post-meta">Published on <%= post.createdAt.toDateString() %></p>
+                <p><%= post.content.substring(0, 150) %>...</p>
+                <a href="/posts/<%= post._id %>" class="read-more">Read More</a>
+            </article>
+        <% }) %>
+    <% } else { %>
+        <p><%= authorName %> has not written any posts yet.</p>
+    <% } %>
+</main>
+
+<%- include('partials/footer') %>

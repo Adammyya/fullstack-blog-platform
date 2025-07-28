@@ -1,0 +1,26 @@
+<% if (totalPages > 1) { %>
+  <nav class="pagination-nav">
+    <ul class="pagination">
+      <!-- Previous Page Link -->
+      <% if (currentPage > 1) { %>
+        <li class="page-item">
+          <a class="page-link" href="/?page=<%= currentPage - 1 %>">Previous</a>
+        </li>
+      <% } %>
+
+      <!-- Page Number Links (optional, but nice) -->
+      <% for(let i = 1; i <= totalPages; i++) { %>
+        <li class="page-item <%= i === currentPage ? 'active' : '' %>">
+          <a class="page-link" href="/?page=<%= i %>"><%= i %></a>
+        </li>
+      <% } %>
+
+      <!-- Next Page Link -->
+      <% if (currentPage < totalPages) { %>
+        <li class="page-item">
+          <a class="page-link" href="/?page=<%= currentPage + 1 %>">Next</a>
+        </li>
+      <% } %>
+    </ul>
+  </nav>
+<% } %>
