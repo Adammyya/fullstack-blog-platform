@@ -1,7 +1,7 @@
 const Post = require('../models/Post');
 const User = require('../models/User');
 
-// --- Middleware for API Routes ---
+// --- Middleware for API Routes 
 
 async function getPost(req, res, next) {
   let post;
@@ -17,13 +17,13 @@ async function getPost(req, res, next) {
   next();
 }
 
-// --- Controller Functions for Rendering Views ---
+// --- Controller Functions for Rendering Views (Pagination)
 
 // GET / - Show all posts on the homepage
 const getAllPosts = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1; // Get page number from query, default to 1
-    const postsPerPage = 5; // Set how many posts to show per page
+    const postsPerPage = 4; // Set how many posts to show per page
 
     const totalPosts = await Post.countDocuments(); // Get the total number of posts
 
@@ -92,7 +92,7 @@ const getEditPostForm = async (req, res) => {
 };
 
 
-// --- Controller Functions for Handling Form Submissions & API requests ---
+// --- Controller Functions for Handling Form Submissions & API requests 
 
 // POST /posts - Handle the creation of a new post from the form
 const createPost = async (req, res) => {

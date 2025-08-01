@@ -70,16 +70,28 @@ const loginUser = async (req, res) => {
 
 // Logout a user
 const logoutUser = (req, res) => {
+  // Check if session exists before trying to destroy it
+  if (!req.session) {
+    res.clearCookie('connect.sid');
+    req.flash('error_msg', 'No active session found.');
+    return res.redirect('/login');
+  }
+
   req.session.destroy(err => {
     if (err) {
       req.flash('error_msg', 'Could not log you out.');
       return res.redirect('/');
     }
-    req.flash('success_msg', 'You have been logged out.');
-    res.clearCookie('connect.sid'); // Clears the session cookie
-    res.redirect('/login');
+
+    // Don't use req.flash() AFTER session is destroyed
+    res.clearCookie('connect.sid');
+    
+    //flash before redirect, but store it in res.locals if session is gone
+    res.locals.success_msg = 'You have been logged out.';
+    return res.redirect('/login');
   });
 };
+
 
 module.exports = {
   getRegisterPage,
